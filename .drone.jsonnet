@@ -162,7 +162,7 @@ local push_pipelines(versions, architectures) = [
 local upload_readme = {
     kind: "pipeline",
     type: "kubernetes",
-    name: "mirror-to-github",
+    name: "upload-readme",
     node_selector: {
         "kubernetes.io/arch": "amd64",
         "federationhq.de/location": "Blumendorf",
