@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a basic container image for running [Spamassassins](https://spamassassin.apache.org/) spamd service.
+This is a basic container image for running [Spamassassin](https://spamassassin.apache.org/) spamd service.
 
 The container is based on debian:stable-slim.
 
@@ -40,7 +40,7 @@ A container runtime like
 * `SPAMD_SPAMD_MAX_CHILDREN` - (optional) the maximum number of spamassassin child processes to spawn, default is 5
 
 ## Volumes
-q
+
 
 ## Source Repository
 
