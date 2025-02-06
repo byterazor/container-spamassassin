@@ -159,6 +159,40 @@ local push_pipelines(versions, architectures) = [
         for version in versions
 ];
 
+local upload_readme = {
+    kind: "pipeline",
+    type: "kubernetes",
+    name: "mirror-to-github",
+    node_selector: {
+        "kubernetes.io/arch": "amd64",
+        "federationhq.de/location": "Blumendorf",
+        "federationhq.de/compute": true
+    },
+    steps: [
+        {
+            name: "push readme",
+            image: "byterazor/drone-docker-readme-push:latest",
+            pull: "always",
+            settings: {
+                REPOSITORY_NAME: "byterazor/" + image_name,
+                FILENAME: "README.md",
+                USERNAME: {
+                    from_secret: "username"
+                },
+                PASSWORD: {
+                    from_secret: "password"
+                },
+            }
+        }
+    ],
+    depends_on:
+    [
+        "push-"+version.tag
+            for version in versions
+    ]
+};
+
+
 local push_github = {
     kind: "pipeline",
     type: "kubernetes",
@@ -192,7 +226,7 @@ local push_github = {
 
 
 
-    build_pipelines(architectures) + push_pipelines(versions,architectures) + [push_github] +
+build_pipelines(architectures) + push_pipelines(versions,architectures) + [upload_readme] + [push_github] +
     [
 {
     kind: "secret",
